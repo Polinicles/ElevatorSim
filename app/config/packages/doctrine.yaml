@@ -23,3 +23,27 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
+            Call:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/API/Infrastructure/Persistence/Call'
+                prefix: 'App\API\Domain\Model\Call'
+                alias: Call
+            Elevator:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/API/Infrastructure/Persistence/Elevator'
+                prefix: 'App\API\Domain\Model\Elevator'
+                alias: Elevator
+            Event:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/API/Infrastructure/Persistence/Event'
+                prefix: 'App\API\Domain\Model\Event'
+                alias: Event
+            Secuence:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/API/Infrastructure/Persistence/Secuence'
+                prefix: 'App\API\Domain\Model\Secuence'
+                alias: Secuence

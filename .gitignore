@@ -1,0 +1,12 @@
+.idea
+
+# Cache, session files and logs
+/app/var/cache/*
+/app/var/logs/*
+/app/var/sessions/*
+!app/var/cache/.gitkeep
+!app/var/log/.gitkeep
+!app/var/sessions/.gitkeep
+
+# Managed by Composer
+/app/vendor/

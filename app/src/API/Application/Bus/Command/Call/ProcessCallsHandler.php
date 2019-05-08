@@ -10,10 +10,13 @@ use Broadway\CommandHandling\SimpleCommandHandler;
 
 class ProcessCallsHandler extends SimpleCommandHandler
 {
+    /** @var CallRepository */
     private $callRepository;
 
+    /** @var ElevatorRepository */
     private $elevatorRepository;
 
+    /** @var CallManager */
     private $callManager;
 
     public function __construct(

@@ -20,20 +20,36 @@ final class CallManager
      * @param Elevator[]
      * @return Call[]
      */
-    public function manageCalls(array &$calls, array &$elevators): array
+    public function manageCalls(array $calls, array $elevators): array
     {
         /** @var Call */
         foreach ($calls as $call) {
             $sameTimeCalls = $this->getSameTimeCalls($calls, $call->calledAt());
+
+            if(sizeof($sameTimeCalls) > sizeof($elevators)){
+                $sameTimeCalls = array_splice(
+                    $sameTimeCalls,
+                    0,
+                    - (sizeof($sameTimeCalls)-sizeof($elevators))
+                );
+            }
+
             $this->assignElevators($sameTimeCalls, $elevators);
             $this->freeElevators($elevators);
 
-            foreach ($sameTimeCalls as $handledCall) {
-                unset($calls[array_search($handledCall, $calls)]);
-            }
+            //TODO: remove handled calls from array
         }
 
-        return $calls;
+        return $calls;//TODO: fix this (will return empty array)
+    }
+
+    public function getCallIndex(array &$calls, Call $call): int
+    {
+        foreach ($calls as $index => $value) {
+            if($value->id() == $call->id()) {
+                return $index;
+            }
+        }
     }
 
     /**
@@ -62,17 +78,13 @@ final class CallManager
     private function assignElevators(array &$calls, array &$elevators): void
     {
         foreach ($calls as $call) {
-            $availableElevators = $this->getAvailableElevator($elevators);dump('available elevators: '.sizeof($elevators));
-            if(null !== $availableElevators) {
-                $closestElevator = $this->getClosestElevator($availableElevators, $call->origin());
-                $closestElevator->take();
-                $closestElevator->increaseFloorTrips(abs($closestElevator->currentFloor() - $call->destiny()));
-                $closestElevator->moveToFloor($call->destiny());
-                $call->completedBy($closestElevator);
-//                echo('T: '.$call->calledAt()->format('H:s').' ID '.$closestElevator->id().' CF '.$closestElevator->currentFloor().' FT '.$closestElevator->floorsTravelled().' \r\n');
-            } else {
-                echo('no available elevator for that call :/');
-            }
+            $availableElevators = $this->getAvailableElevator($elevators);
+            $closestElevator = $this->getClosestElevator($availableElevators, $call->origin());
+            $closestElevator->take();
+            $closestElevator->increaseFloorTrips(abs($closestElevator->currentFloor() - $call->destiny()));
+            $closestElevator->moveToFloor($call->destiny());
+            $call->completedBy($closestElevator);
+            $this->appendCallReport($call->calledAt(), $closestElevator);
         }
     }
 
@@ -144,5 +156,21 @@ final class CallManager
         foreach ($elevators as $elevator) {
             $elevator->free();
         }
+    }
+
+    private function appendCallReport(\DateTimeImmutable $time, Elevator $elevator)
+    {
+//        $this->reportBuilder->appendContent(
+////           'Time: ' . $time->format('H:s') .
+////           ' Elevator ID ' . $elevator->id() .
+////           ' CurrentFloor ' . $elevator->currentFloor() .
+////           ' Floors Travelled ' . $elevator->floorsTravelled() .
+////           ' \r\n'
+////        );
+        echo('Time: ' . $time->format('H:m') .
+            ' Elevator ID ' . $elevator->id() .
+            ' CurrentFloor ' . $elevator->currentFloor() .
+            ' Floors Travelled ' . $elevator->floorsTravelled() .
+            ' \r\n');
     }
 }

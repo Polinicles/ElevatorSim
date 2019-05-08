@@ -53,5 +53,6 @@ final class Elevator implements AggregateRoot
     {
         $this->uuid = $uuid;
         $this->currentFloor = self::INITIAL_FLOOR;
+        $this->floorsTravelled = 0;
     }
 }

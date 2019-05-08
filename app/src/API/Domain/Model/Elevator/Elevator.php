@@ -30,9 +30,24 @@ final class Elevator implements AggregateRoot
     /** @var Collection */
     private $calls;
 
-    public function create(UuidInterface $uuid): Elevator
+    public static function create(UuidInterface $uuid): Elevator
     {
         return new self($uuid);
+    }
+
+    public function id(): ?int
+    {
+        return $this->id;
+    }
+
+    public function currentFloor(): int
+    {
+        return $this->currentFloor;
+    }
+
+    public function floorsTravelled(): int
+    {
+        return $this->floorsTravelled;
     }
 
     public function moveToFloor(int $floor): void

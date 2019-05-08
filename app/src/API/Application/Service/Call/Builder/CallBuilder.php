@@ -2,9 +2,9 @@
 
 namespace App\API\Application\Service\Call\Builder;
 
-use App\API\Application\Service\Sequence\DTO\SequenceDTO;
 use App\API\Domain\Model\Call\Call;
 use App\API\Domain\Model\Call\CallFactory;
+use App\API\Domain\Model\Sequence\Sequence;
 use Ramsey\Uuid\Uuid;
 
 final class CallBuilder
@@ -25,7 +25,7 @@ final class CallBuilder
     {
         $calls = [];
 
-        /** @var SequenceDTO $sequence */
+        /** @var Sequence $sequence */
         foreach ($sequences as $sequence) {
             $initialTime = $sequence->start();
 

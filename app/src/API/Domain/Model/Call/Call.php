@@ -25,6 +25,36 @@ final class Call
     /** @var Elevator */
     private $elevator;
 
+    public function id(): ?int
+    {
+        return $this->id;
+    }
+
+    public function uuid(): UuidInterface
+    {
+        return $this->uuid;
+    }
+
+    public function calledAt(): \DateTimeImmutable
+    {
+        return $this->calledAt;
+    }
+
+    public function origin(): int
+    {
+        return $this->origin;
+    }
+
+    public function destiny(): int
+    {
+        return $this->destiny;
+    }
+
+    public function elevator(): Elevator
+    {
+        return $this->elevator;
+    }
+
     public static function create(UuidInterface $uuid, \DateTimeImmutable $calledAt, int $origin, int $destiny): Call
     {
         return new self($uuid, $calledAt, $origin, $destiny);

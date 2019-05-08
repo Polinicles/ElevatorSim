@@ -8,6 +8,10 @@ use App\Shared\Infrastructure\Doctrine\DoctrineRepository;
 
 class DoctrineElevatorRepository extends DoctrineRepository implements ElevatorRepository
 {
+    public function list(): array
+    {
+        return $this->entityManager()->getRepository(Elevator::class)->findAll(); //TODO: improve this method
+    }
 
     public function save(Elevator $elevator): void
     {

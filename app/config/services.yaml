@@ -50,13 +50,6 @@ services:
             $elevatorReadModel: '@App\API\Domain\Model\Elevator\ElevatorReadModel'
         tags: ['broadway.command_handler']
 
-    ## Read Models
-    ###############
-    App\API\Domain\Model\Call\CallReadModel: '@App\API\Infrastructure\Persistence\Call\PDOCallReadModel'
-    App\API\Domain\Model\Elevator\ElevatorReadModel: '@App\API\Infrastructure\Persistence\Elevator\PDOElevatorReadModel'
-
-    App\API\Domain\Model\Sequence\SequenceReadModel: '@App\API\Infrastructure\Persistence\Sequence\PDOSequenceReadModel'
-
     ## Repositories
     ###############
     App\Shared\Infrastructure\Doctrine\DoctrineRepository:
@@ -73,3 +66,5 @@ services:
     App\API\Domain\Model\Call\CallRepository: '@App\API\Infrastructure\Persistence\Call\DoctrineCallRepository'
 
     App\API\Domain\Model\Elevator\ElevatorRepository: '@App\API\Infrastructure\Persistence\Elevator\DoctrineElevatorRepository'
+
+    App\API\Domain\Model\Sequence\SequenceRepository: '@App\API\Infrastructure\Persistence\Sequence\DoctrineSequenceRepository'

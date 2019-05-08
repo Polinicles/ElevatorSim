@@ -27,6 +27,41 @@ final class Sequence
     /** @var int */
     private $destiny;
 
+    public function id(): ?int
+    {
+        return $this->id;
+    }
+
+    public function uuid(): UuidInterface
+    {
+        return $this->uuid;
+    }
+
+    public function ocurrence(): int
+    {
+        return $this->ocurrence;
+    }
+
+    public function start(): \DateTimeImmutable
+    {
+        return $this->start;
+    }
+
+    public function end(): \DateTimeImmutable
+    {
+        return $this->end;
+    }
+
+    public function origin(): array
+    {
+        return json_decode($this->origin);
+    }
+
+    public function destiny(): int
+    {
+        return $this->destiny;
+    }
+
     public static function create(
         UuidInterface $uuid,
         int $ocurrence,

@@ -2,24 +2,24 @@
 
 namespace App\API\Application\Bus\Command\Call;
 
-use App\API\Domain\Model\Call\CallReadModel;
-use App\API\Domain\Model\Elevator\ElevatorReadModel;
+use App\API\Domain\Model\Call\CallRepository;
+use App\API\Domain\Model\Elevator\ElevatorRepository;
 use Broadway\CommandHandling\SimpleCommandHandler;
 
 class ProcessCallsHandler extends SimpleCommandHandler
 {
-    private $callReadModel;
+    private $callRepository;
 
-    private $elevatorReadModel;
+    private $elevatorRepository;
 
-    private $reportBuilder;
+    private $callManager;
 
     public function __construct(
-        CallReadModel $callReadModel,
-        ElevatorReadModel $elevatorReadModel
+        CallRepository $callRepository,
+        ElevatorRepository $elevatorRepository
     ) {
-        $this->callReadModel = $callReadModel;
-        $this->elevatorReadModel = $elevatorReadModel;
+        $this->callRepository = $callRepository;
+        $this->elevatorRepository = $elevatorRepository;
 //        $this->reportBuilder = $reportBuilder;
     }
 
@@ -29,9 +29,9 @@ class ProcessCallsHandler extends SimpleCommandHandler
      */
     public function handleProcessCalls(ProcessCalls $processCalls)
     {
-        $availableCalls = $this->callReadModel->list();
-        $availableElevators = $this->elevatorReadModel->list();
+        $availableCalls = $this->callRepository->list();
+        $availableElevators = $this->elevatorRepository->list();
 
-        dump($availableCalls); dump($availableElevators);
+
     }
 }

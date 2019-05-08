@@ -3,6 +3,7 @@
 namespace App\API\Domain\Model\Elevator;
 
 use App\Shared\Domain\Aggregate\AggregateRoot;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Ramsey\Uuid\UuidInterface;
 
@@ -54,5 +55,7 @@ final class Elevator implements AggregateRoot
         $this->uuid = $uuid;
         $this->currentFloor = self::INITIAL_FLOOR;
         $this->floorsTravelled = 0;
+
+        $this->calls = new ArrayCollection();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\API\Application\Bus\Command\Calls;
+namespace App\API\Application\Bus\Command\Call;
 
 use App\Shared\Application\Bus\Command\Command;
 

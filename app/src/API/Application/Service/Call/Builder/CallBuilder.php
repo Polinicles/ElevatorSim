@@ -32,23 +32,31 @@ final class CallBuilder
             while ($initialTime <= $sequence->end()) {
 
                 foreach ($sequence->origin() as $elevatorCall) {
-                    $call = $this->callFactory->create(
+                    $newCall = $this->callFactory->create(
                         Uuid::uuid4(),
                         $initialTime,
                         $elevatorCall,
                         $sequence->destiny()
                     );
+                    array_push($calls, $newCall);
                 }
 
+                $initialTime = $this->increaseTimeStep($initialTime, $sequence->ocurrence());
             }
-            $initialTime->add(new \DateInterval('PT' . $sequence->ocurrence(). 'M'));
         }
-
         return $calls;
     }
 
-    private function createCall()
+    /**
+     * @param \DateTimeImmutable $time
+     * @param int $step
+     * @return \DateTimeImmutable
+     * @throws \Exception
+     */
+    private function increaseTimeStep(\DateTimeImmutable $time, int $step): \DateTimeImmutable
     {
-
+        return $time->add(new \DateInterval('PT'.$step.'M'));
     }
+
+    //TODO: refactor this
 }

@@ -2,11 +2,12 @@
 
 namespace App\API\Application\Bus\Command\Call;
 
-use App\API\Application\Bus\Command\Calls\GenerateCalls;
 use App\API\Application\Service\Call\Builder\CallBuilder;
+use App\API\Domain\Model\Call\CallRepository;
 use App\API\Domain\Model\Sequence\SequenceReadModel;
+use Broadway\CommandHandling\SimpleCommandHandler;
 
-class GenerateCallsHandler
+class GenerateCallsHandler extends SimpleCommandHandler
 {
     /** @var SequenceReadModel */
     private $sequenceReadModel;
@@ -15,21 +16,21 @@ class GenerateCallsHandler
     private $callBuilder;
 
     /** @var CallRepository */
-    private $CallRepository;
+    private $callRepository;
 
     public function __construct(
         SequenceReadModel $sequenceReadModel,
-        CallBuilder $CallBuilder,
-        CallRepository $CallRepository
+        CallBuilder $callBuilder,
+        CallRepository $callRepository
     ) {
         $this->sequenceReadModel = $sequenceReadModel;
-        $this->callBuilder = $CallBuilder;
-        $this->CallRepository = $CallRepository;
+        $this->callBuilder = $callBuilder;
+        $this->callRepository = $callRepository;
     }
 
     /**
      * @param GenerateCalls $generateCalls
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Exception
      */
     public function handleGenerateCalls(GenerateCalls $generateCalls)
     {
@@ -37,7 +38,7 @@ class GenerateCallsHandler
         $calls = $this->callBuilder->buildFromSequences($availableSequences);
 
         foreach ($calls as $call) {
-            $this->CallRepository->save($call);
+            $this->callRepository->save($call);
         }
     }
 }

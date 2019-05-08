@@ -1,6 +1,6 @@
 <?php
 
-namespace App\API\Domain\Model\Secuence;
+namespace App\API\Domain\Model\Sequence;
 
 use App\API\Application\Service\Sequence\DTO\SequenceDTO;
 

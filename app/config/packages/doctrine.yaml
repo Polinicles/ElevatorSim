@@ -40,4 +40,4 @@ doctrine:
                 type: xml
                 dir: '%kernel.project_dir%/src/API/Infrastructure/Persistence/Sequence'
                 prefix: 'App\API\Domain\Model\Sequence'
-                alias: Secuence
+                alias: Sequence

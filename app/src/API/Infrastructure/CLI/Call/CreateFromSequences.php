@@ -2,7 +2,7 @@
 
 namespace App\API\Infrastructure\CLI\Call;
 
-use App\API\Application\Bus\Command\Calls\GenerateCalls;
+use App\API\Application\Bus\Command\Call\GenerateCalls;
 use Broadway\CommandHandling\CommandBus;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +26,7 @@ class CreateFromSequences extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @uses \App\API\Application\Bus\Command\Calls\GenerateCallsHandler::handleGenerateCalls */
+        /** @uses \App\API\Application\Bus\Command\Call\GenerateCallsHandler::handleGenerateCalls */
         $this->commandBus->dispatch(GenerateCalls::fromArray([]));
 
         $output->writeln('Calls generated succesfully');

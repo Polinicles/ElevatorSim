@@ -29,12 +29,12 @@ class PDOSequenceReadModel implements SequenceReadModel
                s.end,
                s.origin,
                s.destiny,
-               s.ocurrence,
+               s.ocurrence
             FROM sequence s
 SQL;
 
         $listSequences = $this->pdo->prepare($sql);
-        $listSequences->exequte();
+        $listSequences->execute();
         $listSequencesData = $listSequences->fetchAll(PDO::FETCH_ASSOC);
 
         return array_map(function (array $listSequencesData) {

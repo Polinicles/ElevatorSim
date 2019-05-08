@@ -36,5 +36,6 @@ final class Call
         $this->time = $time;
         $this->origin = $origin;
         $this->destiny = $destiny;
+        $this->elevator = null;
     }
 }

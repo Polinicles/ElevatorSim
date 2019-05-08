@@ -9,9 +9,9 @@ class CallFactory
     public function create(
         UuidInterface $uuid,
         \DateTimeImmutable $time,
-        int $from,
-        int $to
+        int $origin,
+        int $destiny
     ): Call {
-        return Call::create($uuid, $time, $from, $to);
+        return Call::create($uuid, $time, $origin, $destiny);
     }
 }

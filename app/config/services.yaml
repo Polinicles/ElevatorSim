@@ -17,3 +17,45 @@ services:
     App\:
         resource: '../src/*'
         exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+
+    ## Builder
+    ######
+    App\API\Application\Service\Call\Builder\CallBuilder:
+        arguments:
+            $callFactory: '@App\API\Domain\Model\Call\CallFactory'
+
+    ## CLI
+    ######
+    App\API\Infrastructure\CLI\Call\CreateFromSequences:
+        arguments:
+            $commandBus: '@broadway.command_handling.simple_command_bus'
+
+    ## CommandBus
+    #############
+    App\API\Application\Bus\Command\Call\GenerateCallsHandler:
+        arguments:
+            $sequenceReadModel: '@App\API\Domain\Model\Sequence\SequenceReadModel'
+            $callBuilder: '@App\API\Application\Service\Call\Builder\CallBuilder'
+            $callRepository: '@App\API\Domain\Model\Call\CallRepository'
+        tags: ['broadway.command_handler']
+
+    ## Read Models
+    ###############
+    App\API\Domain\Model\Sequence\SequenceReadModel: '@App\API\Infrastructure\Persistence\Sequence\PDOSequenceReadModel'
+
+    ## Repositories
+    ###############
+    App\Shared\Infrastructure\Doctrine\DoctrineRepository:
+        abstract: true
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+
+    App\API\Infrastructure\Persistence\Call\DoctrineCallRepository:
+        parent: 'App\Shared\Infrastructure\Doctrine\DoctrineRepository'
+        public: true
+        autowire: true
+        autoconfigure: false
+
+
+    App\API\Domain\Model\Call\CallRepository: '@App\API\Infrastructure\Persistence\Call\DoctrineCallRepository'

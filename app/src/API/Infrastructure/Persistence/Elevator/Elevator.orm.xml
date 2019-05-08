@@ -9,11 +9,10 @@
                 <option name="fixed"/>
             </options>
         </field>
-        <field name="status" type="string" column="status" length="255" nullable="false">
-            <options>
-                <option name="fixed"/>
-            </options>
-        </field>
-        <field name="currentFloor" type="integer" column="current_floor" nullable="false" />
+        <one-to-many field="calls" target-entity="App\API\Domain\Model\Call\Call" mapped-by="elevator">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

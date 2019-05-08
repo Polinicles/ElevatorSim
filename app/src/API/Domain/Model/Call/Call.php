@@ -2,6 +2,7 @@
 
 namespace App\API\Domain\Model\Call;
 
+use App\API\Domain\Model\Elevator\Elevator;
 use Ramsey\Uuid\UuidInterface;
 
 final class Call
@@ -21,6 +22,9 @@ final class Call
     /** @var int */
     private $destiny;
 
+    /** @var Elevator */
+    private $elevator;
+
     public static function create(UuidInterface $uuid, \DateTimeImmutable $time, int $origin, int $destiny): Call
     {
         return new self($uuid, $time, $origin, $destiny);
@@ -33,5 +37,4 @@ final class Call
         $this->origin = $origin;
         $this->destiny = $destiny;
     }
-
 }

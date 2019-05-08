@@ -35,12 +35,6 @@ doctrine:
                 dir: '%kernel.project_dir%/src/API/Infrastructure/Persistence/Elevator'
                 prefix: 'App\API\Domain\Model\Elevator'
                 alias: Elevator
-            Event:
-                is_bundle: false
-                type: xml
-                dir: '%kernel.project_dir%/src/API/Infrastructure/Persistence/Event'
-                prefix: 'App\API\Domain\Model\Event'
-                alias: Event
             Secuence:
                 is_bundle: false
                 type: xml

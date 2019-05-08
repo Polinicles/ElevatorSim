@@ -1,10 +1,10 @@
 <?php
 
-namespace App\API\Domain\Model\Secuence;
+namespace App\API\Domain\Model\Sequence;
 
 use Ramsey\Uuid\UuidInterface;
 
-final class Secuence
+final class Sequence
 {
     /** @var int|null */
     private $id;
@@ -34,7 +34,7 @@ final class Secuence
         \DateTimeImmutable $end,
         string $origin,
         int $destiny
-    ): Secuence {
+    ): Sequence {
         return new self($uuid, $ocurrence, $start, $end, $origin, $destiny);
     }
 

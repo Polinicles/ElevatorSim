@@ -35,9 +35,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/API/Infrastructure/Persistence/Elevator'
                 prefix: 'App\API\Domain\Model\Elevator'
                 alias: Elevator
-            Secuence:
+            Sequence:
                 is_bundle: false
                 type: xml
-                dir: '%kernel.project_dir%/src/API/Infrastructure/Persistence/Secuence'
-                prefix: 'App\API\Domain\Model\Secuence'
+                dir: '%kernel.project_dir%/src/API/Infrastructure/Persistence/Sequence'
+                prefix: 'App\API\Domain\Model\Sequence'
                 alias: Secuence

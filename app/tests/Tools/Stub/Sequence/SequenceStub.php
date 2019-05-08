@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Tools\Stub\Secuence;
+namespace Tests\Tools\Stub\Sequence;
 
-use App\API\Domain\Model\Secuence\Secuence;
+use App\API\Domain\Model\Sequence\Sequence;
 
-final class SecuenceStub
+final class SequenceStub
 {
-    public static function create(array $params = []): Secuence
+    public static function create(array $params = []): Sequence
     {
-        return Secuence::create(
+        return Sequence::create(
             $params['uuid'],
             $params['ocurrence'],
             $params['start'],

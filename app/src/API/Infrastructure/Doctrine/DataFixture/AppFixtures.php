@@ -7,7 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
 use Ramsey\Uuid\Uuid;
 use Tests\Tools\Stub\Elevator\ElevatorStub;
-use Tests\Tools\Stub\Secuence\SecuenceStub;
+use Tests\Tools\Stub\Sequence\SequenceStub;
 
 final class AppFixtures extends Fixture
 {
@@ -17,7 +17,7 @@ final class AppFixtures extends Fixture
     {
         $faker = Factory::create();
 
-        $secuence1 = SecuenceStub::create([
+        $sequence1 = SequenceStub::create([
             'uuid' => Uuid::fromString($faker->uuid),
             'ocurrence' => 5,
             'start' => new \DateTimeImmutable('09:00'),
@@ -26,7 +26,7 @@ final class AppFixtures extends Fixture
             'to' => 2
         ]);
 
-        $secuence2 = SecuenceStub::create([
+        $sequence2 = SequenceStub::create([
             'uuid' => Uuid::fromString($faker->uuid),
             'ocurrence' => 10,
             'start' => new \DateTimeImmutable('09:00'),
@@ -35,7 +35,7 @@ final class AppFixtures extends Fixture
             'to' => 1
         ]);
 
-        $secuence3 = SecuenceStub::create([
+        $sequence3 = SequenceStub::create([
             'uuid' => Uuid::fromString($faker->uuid),
             'ocurrence' => 4,
             'start' => new \DateTimeImmutable('14:00'),
@@ -44,7 +44,7 @@ final class AppFixtures extends Fixture
             'to' => 0
         ]);
 
-        $secuence4 = SecuenceStub::create([
+        $sequence4 = SequenceStub::create([
             'uuid' => Uuid::fromString($faker->uuid),
             'ocurrence' => 7,
             'start' => new \DateTimeImmutable('15:00'),
@@ -58,10 +58,10 @@ final class AppFixtures extends Fixture
             $manager->persist($elevator);
         }
 
-        $manager->persist($secuence1);
-        $manager->persist($secuence2);
-        $manager->persist($secuence3);
-        $manager->persist($secuence4);
+        $manager->persist($sequence1);
+        $manager->persist($sequence2);
+        $manager->persist($sequence3);
+        $manager->persist($sequence4);
         $manager->flush();
     }
 }

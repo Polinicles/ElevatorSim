@@ -30,7 +30,7 @@ class PDOSequenceReadModel implements SequenceReadModel
                s.origin,
                s.destiny,
                s.ocurrence
-            FROM sequence s
+            FROM sequences s
 SQL;
 
         $listSequences = $this->pdo->prepare($sql);

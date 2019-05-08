@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <entity name="App\API\Domain\Model\Call\Call" table="call">
+    <entity name="App\API\Domain\Model\Call\Call" table="calls">
         <indexes>
             <index name="fk_call_elevator1_idx" columns="elevator_id"/>
         </indexes>
@@ -12,7 +12,7 @@
                 <option name="fixed"/>
             </options>
         </field>
-        <field name="time" type="datetime" column="time" nullable="false"/>
+        <field name="calledAt" type="datetime" column="called_at" nullable="false"/>
         <field name="origin" type="integer" column="origin" nullable="false" />
         <field name="destiny" type="integer" column="destiny" nullable="false" />
         <many-to-one field="elevator" target-entity="App\API\Domain\Model\Elevator\Elevator" fetch="LAZY">

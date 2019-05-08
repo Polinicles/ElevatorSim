@@ -14,7 +14,7 @@ final class Call
     private $uuid;
 
     /** @var \DateTimeImmutable */
-    private $time;
+    private $calledAt;
 
     /** @var int */
     private $origin;
@@ -25,15 +25,15 @@ final class Call
     /** @var Elevator */
     private $elevator;
 
-    public static function create(UuidInterface $uuid, \DateTimeImmutable $time, int $origin, int $destiny): Call
+    public static function create(UuidInterface $uuid, \DateTimeImmutable $calledAt, int $origin, int $destiny): Call
     {
-        return new self($uuid, $time, $origin, $destiny);
+        return new self($uuid, $calledAt, $origin, $destiny);
     }
 
-    private function __construct(UuidInterface $uuid, \DateTimeImmutable $time, int $origin, int $destiny)
+    private function __construct(UuidInterface $uuid, \DateTimeImmutable $calledAt, int $origin, int $destiny)
     {
         $this->uuid = $uuid;
-        $this->time = $time;
+        $this->calledAt = $calledAt;
         $this->origin = $origin;
         $this->destiny = $destiny;
         $this->elevator = null;

@@ -8,10 +8,10 @@ class CallFactory
 {
     public function create(
         UuidInterface $uuid,
-        \DateTimeImmutable $time,
+        \DateTimeImmutable $calledAt,
         int $origin,
         int $destiny
     ): Call {
-        return Call::create($uuid, $time, $origin, $destiny);
+        return Call::create($uuid, $calledAt, $origin, $destiny);
     }
 }

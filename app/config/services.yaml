@@ -39,15 +39,16 @@ services:
     #############
     App\API\Application\Bus\Command\Call\GenerateCallsHandler:
         arguments:
-            $sequenceReadModel: '@App\API\Domain\Model\Sequence\SequenceReadModel'
+            $sequenceRepository: '@App\API\Domain\Model\Sequence\SequenceRepository'
             $callBuilder: '@App\API\Application\Service\Call\Builder\CallBuilder'
             $callRepository: '@App\API\Domain\Model\Call\CallRepository'
         tags: ['broadway.command_handler']
 
     App\API\Application\Bus\Command\Call\ProcessCallsHandler:
         arguments:
-            $callReadModel: '@App\API\Domain\Model\Call\CallReadModel'
-            $elevatorReadModel: '@App\API\Domain\Model\Elevator\ElevatorReadModel'
+            $callRepository: '@App\API\Domain\Model\Call\CallRepository'
+            $elevatorRepository: '@App\API\Domain\Model\Elevator\ElevatorRepository'
+            $callManager: '@App\API\Application\Service\Call\Manager\CallManager'
         tags: ['broadway.command_handler']
 
     ## Repositories
@@ -58,6 +59,18 @@ services:
             $entityManager: '@doctrine.orm.entity_manager'
 
     App\API\Infrastructure\Persistence\Call\DoctrineCallRepository:
+        parent: 'App\Shared\Infrastructure\Doctrine\DoctrineRepository'
+        public: true
+        autowire: true
+        autoconfigure: false
+
+    App\API\Infrastructure\Persistence\Elevator\DoctrineElevatorRepository:
+        parent: 'App\Shared\Infrastructure\Doctrine\DoctrineRepository'
+        public: true
+        autowire: true
+        autoconfigure: false
+
+    App\API\Infrastructure\Persistence\Sequence\DoctrineSequenceRepository:
         parent: 'App\Shared\Infrastructure\Doctrine\DoctrineRepository'
         public: true
         autowire: true

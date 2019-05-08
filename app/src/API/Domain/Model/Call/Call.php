@@ -37,7 +37,7 @@ final class Call
 
     public function calledAt(): \DateTimeImmutable
     {
-        return $this->calledAt;
+        return \DateTimeImmutable::createFromMutable($this->calledAt);
     }
 
     public function origin(): int
@@ -53,6 +53,11 @@ final class Call
     public function elevator(): Elevator
     {
         return $this->elevator;
+    }
+
+    public function completedBy(Elevator $elevator): void
+    {
+        $this->elevator = $elevator;
     }
 
     public static function create(UuidInterface $uuid, \DateTimeImmutable $calledAt, int $origin, int $destiny): Call

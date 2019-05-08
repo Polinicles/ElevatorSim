@@ -11,7 +11,7 @@ final class Elevator implements AggregateRoot
 {
     const STATUS_AVAILABLE = 'available';
 
-    const STATUS_OCUPIED = 'ocupied';
+    const STATUS_OCCUPIED = 'occupied';
 
     const INITIAL_FLOOR = 0;
 
@@ -22,10 +22,13 @@ final class Elevator implements AggregateRoot
     private $uuid;
 
     /** @var int */
-    private $currentFloor; //TODO: not save in DB
+    private $currentFloor;
 
     /** @var int */
-    private $floorsTravelled; //TODO not save in DB
+    private $floorsTravelled;
+
+    /** @var string */
+    private $status;
 
     /** @var Collection */
     private $calls;
@@ -60,6 +63,28 @@ final class Elevator implements AggregateRoot
         $this->floorsTravelled += $tripLength;
     }
 
+    public function free(): void
+    {
+        $this->status = self::STATUS_AVAILABLE;
+    }
+
+    public function take(): void
+    {
+        $this->status = self::STATUS_OCCUPIED;
+    }
+
+    public function reset(): void
+    {
+        $this->currentFloor = self::INITIAL_FLOOR;
+        $this->floorsTravelled = 0;
+        $this->status = self::STATUS_AVAILABLE;
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->status == self::STATUS_AVAILABLE;
+    }
+
     public function getAggregateRootId(): string
     {
         return $this->uuid;
@@ -68,8 +93,6 @@ final class Elevator implements AggregateRoot
     private function __construct(UuidInterface $uuid)
     {
         $this->uuid = $uuid;
-        $this->currentFloor = self::INITIAL_FLOOR;
-        $this->floorsTravelled = 0;
 
         $this->calls = new ArrayCollection();
     }

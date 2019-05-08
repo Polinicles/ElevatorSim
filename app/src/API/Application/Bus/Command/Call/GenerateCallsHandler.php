@@ -10,7 +10,7 @@ use Broadway\CommandHandling\SimpleCommandHandler;
 class GenerateCallsHandler extends SimpleCommandHandler
 {
     /** @var SequenceRepository */
-    private $SequenceRepository;
+    private $sequenceRepository;
 
     /** @var CallBuilder */
     private $callBuilder;
@@ -19,11 +19,11 @@ class GenerateCallsHandler extends SimpleCommandHandler
     private $callRepository;
 
     public function __construct(
-        SequenceRepository $SequenceRepository,
+        SequenceRepository $sequenceRepository,
         CallBuilder $callBuilder,
         CallRepository $callRepository
     ) {
-        $this->SequenceRepository = $SequenceRepository;
+        $this->sequenceRepository = $sequenceRepository;
         $this->callBuilder = $callBuilder;
         $this->callRepository = $callRepository;
     }
@@ -34,7 +34,7 @@ class GenerateCallsHandler extends SimpleCommandHandler
      */
     public function handleGenerateCalls(GenerateCalls $generateCalls)
     {
-        $availableSequences = $this->SequenceRepository->list();
+        $availableSequences = $this->sequenceRepository->list();
         $calls = $this->callBuilder->buildFromSequences($availableSequences);
 
         foreach ($calls as $call) {

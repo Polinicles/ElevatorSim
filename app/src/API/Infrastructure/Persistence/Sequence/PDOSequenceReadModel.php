@@ -25,11 +25,11 @@ class PDOSequenceReadModel implements SequenceReadModel
     {
         $sql =<<<SQL
             SELECT
-               s.start,
-               s.end,
-               s.origin,
-               s.destiny,
-               s.ocurrence
+                s.start,
+                s.end,
+                s.origin,
+                s.destiny,
+                s.ocurrence
             FROM sequences s
 SQL;
 

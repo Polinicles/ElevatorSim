@@ -31,6 +31,10 @@ services:
         arguments:
             $commandBus: '@broadway.command_handling.simple_command_bus'
 
+    App\API\Infrastructure\CLI\Call\ProcessCalls:
+        arguments:
+            $commandBus: '@broadway.command_handling.simple_command_bus'
+
     ## CommandBus
     #############
     App\API\Application\Bus\Command\Call\GenerateCallsHandler:
@@ -40,8 +44,17 @@ services:
             $callRepository: '@App\API\Domain\Model\Call\CallRepository'
         tags: ['broadway.command_handler']
 
+    App\API\Application\Bus\Command\Call\ProcessCallsHandler:
+        arguments:
+            $callReadModel: '@App\API\Domain\Model\Call\CallReadModel'
+            $elevatorReadModel: '@App\API\Domain\Model\Elevator\ElevatorReadModel'
+        tags: ['broadway.command_handler']
+
     ## Read Models
     ###############
+    App\API\Domain\Model\Call\CallReadModel: '@App\API\Infrastructure\Persistence\Call\PDOCallReadModel'
+    App\API\Domain\Model\Elevator\ElevatorReadModel: '@App\API\Infrastructure\Persistence\Elevator\PDOElevatorReadModel'
+
     App\API\Domain\Model\Sequence\SequenceReadModel: '@App\API\Infrastructure\Persistence\Sequence\PDOSequenceReadModel'
 
     ## Repositories
@@ -57,5 +70,6 @@ services:
         autowire: true
         autoconfigure: false
 
-
     App\API\Domain\Model\Call\CallRepository: '@App\API\Infrastructure\Persistence\Call\DoctrineCallRepository'
+
+    App\API\Domain\Model\Elevator\ElevatorRepository: '@App\API\Infrastructure\Persistence\Elevator\DoctrineElevatorRepository'

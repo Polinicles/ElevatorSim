@@ -44,12 +44,12 @@ final class Sequence
 
     public function start(): \DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromMutable($this->start);
+        return new \DateTimeImmutable($this->start->format('H:i'));
     }
 
     public function end(): \DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromMutable($this->end);
+        return new \DateTimeImmutable($this->end->format('H:i'));
     }
 
     public function origin(): array

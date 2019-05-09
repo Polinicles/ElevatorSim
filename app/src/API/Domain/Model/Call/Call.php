@@ -37,7 +37,7 @@ final class Call
 
     public function calledAt(): \DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromMutable($this->calledAt);
+        return new \DateTimeImmutable($this->calledAt->format('H:i'));
     }
 
     public function origin(): int

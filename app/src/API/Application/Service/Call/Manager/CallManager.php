@@ -78,7 +78,7 @@ final class CallManager
      * @param Elevator[]
      * @return void
      */
-    private function assignElevators(array $callGroup, array $elevators): void
+    private function assignElevators(array $callGroup, array &$elevators): void
     {
         foreach ($callGroup as $call) {
             $availableElevators = $this->getAvailableElevators($elevators);
@@ -86,12 +86,14 @@ final class CallManager
             if(!empty($availableElevators)) { //TODO: manage if no free elevators
                 $closestElevator = $this->getClosestElevator($availableElevators, $call->origin());
                 $closestElevator->take();
-                $closestElevator->increaseFloorTrips(abs($closestElevator->currentFloor() - $call->destiny()));
+                $elevatorDistanceFromCallOrigin = abs($closestElevator->currentFloor() - $call->origin());
+                $closestElevator->increaseFloorTrips(
+                    abs($call->origin() - $call->destiny()) + $elevatorDistanceFromCallOrigin
+                );
                 $closestElevator->moveToFloor($call->destiny());
                 $call->completedBy($closestElevator);
                 $this->appendCallReport($call->calledAt(), $closestElevator);
             }
-
         }
         $this->freeElevators($elevators);
     }
@@ -161,7 +163,7 @@ final class CallManager
     private function appendCallReport(\DateTimeImmutable $time, Elevator $elevator)
     {
         $this->reportBuilder->appendContent(
-           'Time: ' . $time->format('H:s') .
+           'Time: ' . $time->format('H:i') .
            ' Elevator ID ' . $elevator->id() .
            ' CurrentFloor ' . $elevator->currentFloor() .
            ' Floors Travelled ' . $elevator->floorsTravelled() .

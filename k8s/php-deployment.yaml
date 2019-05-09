@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: php
+  template:
+    metadata:
+      labels:
+        component: php
+    spec:
+      containers:
+        - name: php
+          image:  #TODO: add img
+          ports:
+            - containerPort: 9000
+          env:
+            - name: APP_ENV
+              value: dev
+            - name: APP_DEBUG
+              value: '1'
+            - name: APP_SECRET
+              value: a69df03d709500bfff59ea247d21466e
+            - name: MYSQL_HOST
+              value: mysql-cluster-ip-service
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: db
+            - name: MYSQL_DATABASE_TEST
+              value: test
+            - name: MYSQL_USER
+              value: user
+            - name: MYSQL_PASSWORD
+              value: secret

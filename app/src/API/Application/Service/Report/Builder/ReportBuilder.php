@@ -4,7 +4,7 @@ namespace App\API\Application\Service\Report\Builder;
 
 class ReportBuilder
 {
-    const REPORT_FILE = __DIR__.'report.txt';
+    const REPORT_FILE = __DIR__.'/report.txt';
 
     private $content;
 
@@ -21,7 +21,7 @@ class ReportBuilder
     public function generateReport(): void
     {
         $fp = fopen(self::REPORT_FILE, 'wb');
-        fwrite($fp, $this->content());dump($this->content());
+        fwrite($fp, $this->content());
         fclose($fp);
     }
 }

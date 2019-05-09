@@ -28,6 +28,8 @@ final class CallManager
             $this->assignElevators($callGroup, $elevators);
         }
 
+        $this->reportBuilder->generateReport();
+
         return $calls;
     }
 
@@ -79,13 +81,17 @@ final class CallManager
     private function assignElevators(array $callGroup, array $elevators): void
     {
         foreach ($callGroup as $call) {
-            $availableElevators = $this->getAvailableElevators($elevators); //TODO: manage if no free elevators
-            $closestElevator = $this->getClosestElevator($availableElevators, $call->origin());
-            $closestElevator->take();
-            $closestElevator->increaseFloorTrips(abs($closestElevator->currentFloor() - $call->destiny()));
-            $closestElevator->moveToFloor($call->destiny());
-            $call->completedBy($closestElevator);
-            $this->appendCallReport($call->calledAt(), $closestElevator);
+            $availableElevators = $this->getAvailableElevators($elevators);
+
+            if(!empty($availableElevators)) { //TODO: manage if no free elevators
+                $closestElevator = $this->getClosestElevator($availableElevators, $call->origin());
+                $closestElevator->take();
+                $closestElevator->increaseFloorTrips(abs($closestElevator->currentFloor() - $call->destiny()));
+                $closestElevator->moveToFloor($call->destiny());
+                $call->completedBy($closestElevator);
+                $this->appendCallReport($call->calledAt(), $closestElevator);
+            }
+
         }
         $this->freeElevators($elevators);
     }
@@ -161,10 +167,5 @@ final class CallManager
            ' Floors Travelled ' . $elevator->floorsTravelled() .
            ' \r\n'
         );
-//        sprintf('Time: ' . $time->format('H:m') .
-//            ' Elevator ID ' . $elevator->id() .
-//            ' CurrentFloor ' . $elevator->currentFloor() .
-//            ' Floors Travelled ' . $elevator->floorsTravelled() .
-//            ' \r\n');
     }
 }

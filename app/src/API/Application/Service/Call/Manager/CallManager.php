@@ -92,9 +92,9 @@ final class CallManager
                     abs($call->origin() - $call->destiny()) + $elevatorDistanceFromCallOrigin
                 );
 
+                $this->appendCallReport($call->calledAt(), $closestElevator);
                 $closestElevator->moveToFloor($call->destiny());
                 $call->completedBy($closestElevator);
-                $this->appendCallReport($call->calledAt(), $closestElevator);
             }
         }
         $this->freeElevators($elevators);

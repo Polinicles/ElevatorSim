@@ -86,10 +86,12 @@ final class CallManager
             if(!empty($availableElevators)) { //TODO: manage if no free elevators
                 $closestElevator = $this->getClosestElevator($availableElevators, $call->origin());
                 $closestElevator->take();
+
                 $elevatorDistanceFromCallOrigin = abs($closestElevator->currentFloor() - $call->origin());
                 $closestElevator->increaseFloorTrips(
                     abs($call->origin() - $call->destiny()) + $elevatorDistanceFromCallOrigin
                 );
+
                 $closestElevator->moveToFloor($call->destiny());
                 $call->completedBy($closestElevator);
                 $this->appendCallReport($call->calledAt(), $closestElevator);
@@ -167,7 +169,7 @@ final class CallManager
            ' Elevator ID ' . $elevator->id() .
            ' CurrentFloor ' . $elevator->currentFloor() .
            ' Floors Travelled ' . $elevator->floorsTravelled() .
-           ' \r\n'
+           PHP_EOL
         );
     }
 }

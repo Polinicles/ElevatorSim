@@ -77,6 +77,14 @@ gcr.io/{gce-project}/{name-of-image}
 
 Once defined, it has to tag and push the image to the hub
 
+## Connect to the MySQL DDBB
+```sh
+HOST=127.0.0.1
+user=root
+password=root
+db=db
+```
+
 ## Improvements
 
 - Use InMemory Repository type instead of MySQL
@@ -86,3 +94,4 @@ Once defined, it has to tag and push the image to the hub
 - Hability to define starting number of elevators or sequences
 - Exceptions Handling
 - Throwing domain events
+- Refresh DB everytime the Docker container is created to avoid duplicated data

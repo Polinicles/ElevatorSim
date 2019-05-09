@@ -22,25 +22,53 @@ final class CallManager
      */
     public function manageCalls(array $calls, array $elevators): array
     {
+        $callGroups = $this->groupCallsByCallTime($calls);
+
         /** @var Call */
         foreach ($calls as $call) {
             $sameTimeCalls = $this->getSameTimeCalls($calls, $call->calledAt());
 
-            if(sizeof($sameTimeCalls) > sizeof($elevators)){
-                $sameTimeCalls = array_splice(
-                    $sameTimeCalls,
-                    0,
-                    - (sizeof($sameTimeCalls)-sizeof($elevators))
-                );
-            }
-
-            $this->assignElevators($sameTimeCalls, $elevators);
-            $this->freeElevators($elevators);
+//            if(sizeof($sameTimeCalls) > sizeof($elevators)){
+//                $sameTimeCalls = array_splice(
+//                    $sameTimeCalls,
+//                    0,
+//                    - (sizeof($sameTimeCalls)-sizeof($elevators))
+//                );
+//            }
+//
+//            $this->assignElevators($sameTimeCalls, $elevators);
+//            $this->freeElevators($elevators);
 
             //TODO: remove handled calls from array
         }
 
         return $calls;//TODO: fix this (will return empty array)
+    }
+
+    public function groupCallsByCallTime(array $calls): array
+    {
+        $callGroups = [];
+        $callTimes = [];
+
+        foreach ($calls as $call) {
+            $callTime = $call->calledAt();
+
+            if (!in_array($callTime, $callTimes)) {
+                array_push($callTimes, $callTime);
+            }
+        }
+
+        foreach ($callTimes as $key => $time) {
+            $callGroups[$key] = [];
+
+            foreach ($calls as $call) {
+                if($call->calledAt() == $time) {
+                    array_push($callGroups[$key], $call);
+                }
+            }
+        }
+
+        return $callGroups;
     }
 
     public function getCallIndex(array &$calls, Call $call): int

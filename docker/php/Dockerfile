@@ -32,6 +32,9 @@ COPY ./.env /opt/.env
 # Set working directory
 WORKDIR /opt/app/
 
+# Create log & cache directory
+RUN mkdir -p var/cache && mkdir -p var/log
+
 # Set permissions
 RUN usermod -u 1000 www-data
 RUN chown -R www-data: \

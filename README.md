@@ -71,9 +71,9 @@ gcr.io/{gce-project}/{name-of-image}
 
 Once defined, it has to tag and push the image to the hub
 
-##Improvements
+## Improvements
 
 - Use InMemory Repository type instead of MySQL
 - Create MakeFile
-- Run unit tests
+- Code coverage for all classes
 - Manage calls that can't be answered when there're not enough elevators

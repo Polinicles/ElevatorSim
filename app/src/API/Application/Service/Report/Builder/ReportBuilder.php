@@ -6,6 +6,8 @@ class ReportBuilder
 {
     const REPORT_FILE = __DIR__.'/report.txt';
 
+    const OPEN_MODE = 'wb';
+
     private $content;
 
     public function content(): string
@@ -20,7 +22,7 @@ class ReportBuilder
 
     public function generateReport(): void
     {
-        $fp = fopen(self::REPORT_FILE, 'wb');
+        $fp = fopen(self::REPORT_FILE, self::OPEN_MODE);
         fwrite($fp, $this->content());
         fclose($fp);
     }

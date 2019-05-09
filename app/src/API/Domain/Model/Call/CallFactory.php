@@ -4,7 +4,7 @@ namespace App\API\Domain\Model\Call;
 
 use Ramsey\Uuid\UuidInterface;
 
-class CallFactory
+final class CallFactory
 {
     public function create(
         UuidInterface $uuid,

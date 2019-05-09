@@ -8,7 +8,7 @@ use App\API\Domain\Model\Elevator\Elevator;
 use App\API\Domain\Model\Elevator\ElevatorRepository;
 use Broadway\CommandHandling\SimpleCommandHandler;
 
-class ProcessCallsHandler extends SimpleCommandHandler
+final class ProcessCallsHandler extends SimpleCommandHandler
 {
     /** @var CallRepository */
     private $callRepository;
@@ -33,7 +33,7 @@ class ProcessCallsHandler extends SimpleCommandHandler
      * @param ProcessCalls $processCalls
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function handleProcessCalls(ProcessCalls $processCalls)
+    public function handleProcessCalls(ProcessCalls $processCalls): void
     {
         $availableCalls = $this->callRepository->list();
         $availableElevators = $this->elevatorRepository->list();
@@ -45,6 +45,7 @@ class ProcessCallsHandler extends SimpleCommandHandler
 
         $calls = $this->callManager->manageCalls($availableCalls, $availableElevators);
 
+        //TODO: fix bug when saving calls for the second time
 //        foreach ($calls as $call) {
 //            $this->callRepository->save($call);
 //        }

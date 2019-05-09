@@ -10,7 +10,7 @@ class DoctrineCallRepository extends DoctrineRepository implements CallRepositor
 {
     public function list(): array
     {
-        return $this->entityManager()->getRepository(Call::class)->findAll(); //TODO: improve this method
+        return $this->repository(Call::class)->findAll();
     }
 
     public function save(Call $call): void

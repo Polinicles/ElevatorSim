@@ -10,6 +10,6 @@ class DoctrineSequenceRepository extends DoctrineRepository implements SequenceR
 {
     public function list(): array
     {
-       return $this->entityManager()->getRepository(Sequence::class)->findAll(); //TODO: improve this method
+       return $this->repository(Sequence::class)->findAll();
     }
 }

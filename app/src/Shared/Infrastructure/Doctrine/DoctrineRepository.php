@@ -3,6 +3,7 @@
 namespace App\Shared\Infrastructure\Doctrine;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 
 abstract class DoctrineRepository
 {
@@ -22,5 +23,10 @@ abstract class DoctrineRepository
     {
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush($entity);
+    }
+
+    protected function repository($entityClass): EntityRepository
+    {
+        return $this->entityManager->getRepository($entityClass);
     }
 }

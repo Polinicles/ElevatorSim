@@ -27,24 +27,61 @@ final class CallBuilder
 
         /** @var Sequence $sequence */
         foreach ($sequences as $sequence) {
-            $initialTime = $sequence->start();
-
-            while ($initialTime <= $sequence->end()) {
-
-                foreach ($sequence->origin() as $elevatorCall) {
-                    $newCall = $this->callFactory->create(
-                        Uuid::uuid4(),
-                        $initialTime,
-                        $elevatorCall,
-                        $sequence->destiny()
-                    );
-                    array_push($calls, $newCall);
-                }
-
-                $initialTime = $this->increaseTimeStep($initialTime, $sequence->ocurrence());
-            }
+            $calls = array_merge(
+                array_values($calls),
+                array_values($this->generateCallsFromSequence($sequence->start(), $sequence))
+            );
         }
         return $calls;
+    }
+
+    /**
+     * @param \DateTimeImmutable $start
+     * @param Sequence $sequence
+     * @return Call[]
+     * @throws \Exception
+     */
+    private function generateCallsFromSequence(\DateTimeImmutable $start, Sequence $sequence): array
+    {
+        $newSequenceCalls = [];
+
+        while ($start <= $sequence->end()) {
+            $sequenceSameTimeCalls = $this->generateSameTimeCalls(
+                $sequence->origin(),
+                $start,
+                $sequence->destiny()
+            );
+
+            $newSequenceCalls = array_merge(
+                array_values($newSequenceCalls),
+                array_values($sequenceSameTimeCalls)
+            );
+            $start = $this->increaseTimeStep($start, $sequence->ocurrence());
+        }
+
+        return $newSequenceCalls;
+    }
+
+    /**
+     * @param array $elevatorCalls
+     * @param \DateTimeImmutable $callTime
+     * @param int $callDestiny
+     * @return Call[]
+     * @throws \Exception
+     */
+    private function generateSameTimeCalls(
+        array $elevatorCalls,
+        \DateTimeImmutable $callTime,
+        int $callDestiny
+    ): array {
+        $callsFromManyOrigins = [];
+
+        foreach ($elevatorCalls as $callOrigin) {
+            $newCall = $this->createCall($callTime, $callOrigin, $callDestiny);
+            array_push($callsFromManyOrigins, $newCall);
+        }
+
+        return $callsFromManyOrigins;
     }
 
     /**
@@ -58,5 +95,15 @@ final class CallBuilder
         return $time->add(new \DateInterval('PT'.$step.'M'));
     }
 
-    //TODO: refactor this
+    /**
+     * @param \DateTimeImmutable $callTime
+     * @param int $origin
+     * @param int $destiny
+     * @return Call
+     * @throws \Exception
+     */
+    private function createCall(\DateTimeImmutable $callTime, int $origin, int $destiny): Call
+    {
+        return $this->callFactory->create(Uuid::uuid4(), $callTime, $origin, $destiny);
+    }
 }

@@ -10,7 +10,7 @@ class DoctrineElevatorRepository extends DoctrineRepository implements ElevatorR
 {
     public function list(): array
     {
-        return $this->entityManager()->getRepository(Elevator::class)->findAll(); //TODO: improve this method
+        return $this->repository(Elevator::class)->findAll();
     }
 
     public function save(Elevator $elevator): void

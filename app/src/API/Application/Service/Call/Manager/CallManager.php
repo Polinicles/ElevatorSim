@@ -83,7 +83,7 @@ final class CallManager
         foreach ($callGroup as $call) {
             $availableElevators = $this->getAvailableElevators($elevators);
 
-            if(!empty($availableElevators)) { //TODO: manage if no free elevators
+            if(!empty($availableElevators)) {
                 $closestElevator = $this->getClosestElevator($availableElevators, $call->origin());
                 $closestElevator->take();
 

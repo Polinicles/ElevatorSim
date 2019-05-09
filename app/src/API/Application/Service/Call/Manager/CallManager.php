@@ -22,32 +22,29 @@ final class CallManager
      */
     public function manageCalls(array $calls, array $elevators): array
     {
-        $callGroups = $this->groupCallsByCallTime($calls);
+        $callGroups = $this->groupCalls($calls);
 
-        /** @var Call */
-        foreach ($calls as $call) {
-            $sameTimeCalls = $this->getSameTimeCalls($calls, $call->calledAt());
-
-//            if(sizeof($sameTimeCalls) > sizeof($elevators)){
-//                $sameTimeCalls = array_splice(
-//                    $sameTimeCalls,
-//                    0,
-//                    - (sizeof($sameTimeCalls)-sizeof($elevators))
-//                );
-//            }
-//
-//            $this->assignElevators($sameTimeCalls, $elevators);
-//            $this->freeElevators($elevators);
-
-            //TODO: remove handled calls from array
+        foreach ($callGroups as $callGroup) {
+            $this->assignElevators($callGroup, $elevators);
         }
 
-        return $calls;//TODO: fix this (will return empty array)
+        return $calls;
     }
 
-    public function groupCallsByCallTime(array $calls): array
+    private function groupCalls(array $calls): array
     {
         $callGroups = [];
+        $callTimes = $this->getCallTimes($calls);
+
+        foreach ($callTimes as $key => $time) {
+            $callGroups[$key] = $this->groupCallsByCallTime($calls, $time);
+        }
+
+        return $callGroups;
+    }
+
+    private function getCallTimes(array $calls): array
+    {
         $callTimes = [];
 
         foreach ($calls as $call) {
@@ -58,44 +55,20 @@ final class CallManager
             }
         }
 
-        foreach ($callTimes as $key => $time) {
-            $callGroups[$key] = [];
-
-            foreach ($calls as $call) {
-                if($call->calledAt() == $time) {
-                    array_push($callGroups[$key], $call);
-                }
-            }
-        }
-
-        return $callGroups;
+        return $callTimes;
     }
 
-    public function getCallIndex(array &$calls, Call $call): int
+    private function groupCallsByCallTime(array $calls,\DateTimeImmutable $callTime): array
     {
-        foreach ($calls as $index => $value) {
-            if($value->id() == $call->id()) {
-                return $index;
-            }
-        }
-    }
-
-    /**
-     * @param Call[]
-     * @param \DateTimeImmutable $time
-     * @return Call[]
-     */
-    private function getSameTimeCalls(array $calls, \DateTimeImmutable $time): array
-    {
-        $callsAtSameTime = [];
+        $result = [];
 
         foreach ($calls as $call) {
-            if($call->calledAt() == $time) {
-                array_push($callsAtSameTime, $call);
+            if($call->calledAt() == $callTime) {
+                array_push($result, $call);
             }
         }
 
-        return $callsAtSameTime;
+        return $result;
     }
 
     /**
@@ -103,10 +76,10 @@ final class CallManager
      * @param Elevator[]
      * @return void
      */
-    private function assignElevators(array &$calls, array &$elevators): void
+    private function assignElevators(array $callGroup, array $elevators): void
     {
-        foreach ($calls as $call) {
-            $availableElevators = $this->getAvailableElevator($elevators);
+        foreach ($callGroup as $call) {
+            $availableElevators = $this->getAvailableElevators($elevators); //TODO: manage if no free elevators
             $closestElevator = $this->getClosestElevator($availableElevators, $call->origin());
             $closestElevator->take();
             $closestElevator->increaseFloorTrips(abs($closestElevator->currentFloor() - $call->destiny()));
@@ -114,31 +87,24 @@ final class CallManager
             $call->completedBy($closestElevator);
             $this->appendCallReport($call->calledAt(), $closestElevator);
         }
+        $this->freeElevators($elevators);
     }
 
     /**
      * @param array $elevators
      * @return array
      */
-    private function getAvailableElevator(array &$elevators): ?array
+    private function getAvailableElevators(array $elevators): ?array
     {
-        if(sizeof($elevators) === 0) {
-            return null;
-        }
-
-        if ($this->checkIfOnlyOneElevator($elevators)) {
-            return $elevators[0];
-        }
-
-        $freeElevators = [];
+        $availableElevators = [];
 
         foreach ($elevators as $elevator) {
             if ($elevator->isEmpty()) {
-                array_push($freeElevators, $elevator);
+                array_push($availableElevators, $elevator);
             }
         }
 
-        return $freeElevators;
+        return $availableElevators;
     }
 
     /**
@@ -146,7 +112,7 @@ final class CallManager
      * @param int $callOrigin
      * @return Elevator
      */
-    private function getClosestElevator(array &$elevators, int $callOrigin): Elevator
+    private function getClosestElevator(array $elevators, int $callOrigin): Elevator
     {
         if ($this->checkIfOnlyOneElevator($elevators)) {
             return $elevators[0];
@@ -179,7 +145,7 @@ final class CallManager
      * @param Elevator[]
      * @return void
      */
-    private function freeElevators(array &$elevators): void
+    private function freeElevators(array $elevators): void
     {
         foreach ($elevators as $elevator) {
             $elevator->free();
@@ -188,17 +154,17 @@ final class CallManager
 
     private function appendCallReport(\DateTimeImmutable $time, Elevator $elevator)
     {
-//        $this->reportBuilder->appendContent(
-////           'Time: ' . $time->format('H:s') .
-////           ' Elevator ID ' . $elevator->id() .
-////           ' CurrentFloor ' . $elevator->currentFloor() .
-////           ' Floors Travelled ' . $elevator->floorsTravelled() .
-////           ' \r\n'
-////        );
-        echo('Time: ' . $time->format('H:m') .
-            ' Elevator ID ' . $elevator->id() .
-            ' CurrentFloor ' . $elevator->currentFloor() .
-            ' Floors Travelled ' . $elevator->floorsTravelled() .
-            ' \r\n');
+        $this->reportBuilder->appendContent(
+           'Time: ' . $time->format('H:s') .
+           ' Elevator ID ' . $elevator->id() .
+           ' CurrentFloor ' . $elevator->currentFloor() .
+           ' Floors Travelled ' . $elevator->floorsTravelled() .
+           ' \r\n'
+        );
+//        sprintf('Time: ' . $time->format('H:m') .
+//            ' Elevator ID ' . $elevator->id() .
+//            ' CurrentFloor ' . $elevator->currentFloor() .
+//            ' Floors Travelled ' . $elevator->floorsTravelled() .
+//            ' \r\n');
     }
 }

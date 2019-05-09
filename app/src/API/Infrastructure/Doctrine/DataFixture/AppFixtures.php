@@ -22,8 +22,8 @@ final class AppFixtures extends Fixture
             'ocurrence' => 5,
             'start' => new \DateTimeImmutable('09:00'),
             'end' => new \DateTimeImmutable('11:00'),
-            'from' => json_encode([0]),
-            'to' => 2
+            'origin' => json_encode([0]),
+            'destiny' => 2
         ]);
 
         $sequence2 = SequenceStub::create([
@@ -31,8 +31,8 @@ final class AppFixtures extends Fixture
             'ocurrence' => 10,
             'start' => new \DateTimeImmutable('09:00'),
             'end' => new \DateTimeImmutable('11:00'),
-            'from' => json_encode([0]),
-            'to' => 1
+            'origin' => json_encode([0]),
+            'destiny' => 1
         ]);
 
         $sequence3 = SequenceStub::create([
@@ -40,8 +40,8 @@ final class AppFixtures extends Fixture
             'ocurrence' => 4,
             'start' => new \DateTimeImmutable('14:00'),
             'end' => new \DateTimeImmutable('15:00'),
-            'from' => json_encode([1,2,3]),
-            'to' => 0
+            'origin' => json_encode([1,2,3]),
+            'destiny' => 0
         ]);
 
         $sequence4 = SequenceStub::create([
@@ -49,8 +49,8 @@ final class AppFixtures extends Fixture
             'ocurrence' => 7,
             'start' => new \DateTimeImmutable('15:00'),
             'end' => new \DateTimeImmutable('16:00'),
-            'from' => json_encode([2,3]),
-            'to' => 0
+            'origin' => json_encode([2,3]),
+            'destiny' => 0
         ]);
 
         for ($i = 0; $i < self::ELEVATORS; $i++) {

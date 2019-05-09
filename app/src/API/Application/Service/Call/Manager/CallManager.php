@@ -6,7 +6,7 @@ use App\API\Application\Service\Report\Builder\ReportBuilder;
 use App\API\Domain\Model\Call\Call;
 use App\API\Domain\Model\Elevator\Elevator;
 
-final class CallManager
+class CallManager
 {
     private $reportBuilder;
 
@@ -60,12 +60,12 @@ final class CallManager
         return $callTimes;
     }
 
-    private function groupCallsByCallTime(array $calls,\DateTimeImmutable $callTime): array
+    private function groupCallsByCallTime(array $calls, \DateTimeImmutable $callTime): array
     {
         $result = [];
 
         foreach ($calls as $call) {
-            if($call->calledAt() == $callTime) {
+            if ($call->calledAt() == $callTime) {
                 array_push($result, $call);
             }
         }
@@ -83,7 +83,7 @@ final class CallManager
         foreach ($callGroup as $call) {
             $availableElevators = $this->getAvailableElevators($elevators);
 
-            if(!empty($availableElevators)) {
+            if (!empty($availableElevators)) {
                 $closestElevator = $this->getClosestElevator($availableElevators, $call->origin());
                 $closestElevator->take();
 
@@ -165,11 +165,11 @@ final class CallManager
     private function appendCallReport(\DateTimeImmutable $time, Elevator $elevator)
     {
         $this->reportBuilder->appendContent(
-           'Time: ' . $time->format('H:i') .
-           ' Elevator ID ' . $elevator->id() .
-           ' CurrentFloor ' . $elevator->currentFloor() .
-           ' Floors Travelled ' . $elevator->floorsTravelled() .
-           PHP_EOL
+            'Time: ' . $time->format('H:i') .
+            ' Elevator ID ' . $elevator->id() .
+            ' CurrentFloor ' . $elevator->currentFloor() .
+            ' Floors Travelled ' . $elevator->floorsTravelled() .
+            PHP_EOL
         );
     }
 }

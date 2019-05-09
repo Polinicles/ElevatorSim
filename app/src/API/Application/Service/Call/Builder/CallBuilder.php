@@ -7,7 +7,7 @@ use App\API\Domain\Model\Call\CallFactory;
 use App\API\Domain\Model\Sequence\Sequence;
 use Ramsey\Uuid\Uuid;
 
-final class CallBuilder
+class CallBuilder
 {
     private $callFactory;
 

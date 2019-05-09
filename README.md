@@ -54,6 +54,13 @@ $ bin/console app:call:process
 
 There's a report file generated called ```report.txt```
 
+## Tests
+
+Run Unit tests
+```sh
+$ /vendor/bin/phpunit --testsuite=unit-tests --stop-on-failure
+```
+
 ## Kubernetes
 
 The environment is read to deploy but it needs to define an image hub like GCR

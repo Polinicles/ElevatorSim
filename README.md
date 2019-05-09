@@ -32,11 +32,19 @@ Connect to the bash of the PHP container
 $ docker-compose exec php bash
 ```
 
-## Commands
+## App
 
-### Generate Calls from defined Sequences
+### Fixtures
 
-Inside the running container:
+In order to provide some fake data there are some fixtures for the sequences and elevators
+
+```sh
+$ bin/console doctrine:fixtures:load --append
+```
+
+### Commands
+
+#### Generate Calls from defined Sequences
 
 ```sh
 $ bin/console app:call:generate
@@ -44,9 +52,7 @@ $ bin/console app:call:generate
 
 The sequences and elevators number are defined in the ```AppFixtures.php```
 
-### Generate report of the calls
-
-Inside the running container:
+#### Generate report of the calls
 
 ```sh
 $ bin/console app:call:process
@@ -54,7 +60,7 @@ $ bin/console app:call:process
 
 There's a report file generated called ```report.txt```
 
-## Tests
+### Tests
 
 Run Unit tests
 ```sh

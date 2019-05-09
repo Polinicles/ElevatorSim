@@ -14,6 +14,5 @@ bin/console cache:warmup
 
 # DB
 bin/console doctrine:schema:update --force
-bin/console doctrine:fixtures:load --append
 
 exec php-fpm -F

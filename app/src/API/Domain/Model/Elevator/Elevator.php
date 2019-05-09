@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Ramsey\Uuid\UuidInterface;
 
-final class Elevator implements AggregateRoot
+class Elevator implements AggregateRoot
 {
     const STATUS_AVAILABLE = 'available';
 

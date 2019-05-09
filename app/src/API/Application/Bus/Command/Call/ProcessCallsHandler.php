@@ -45,9 +45,8 @@ final class ProcessCallsHandler extends SimpleCommandHandler
 
         $calls = $this->callManager->manageCalls($availableCalls, $availableElevators);
 
-        //TODO: fix bug when saving calls for the second time
-//        foreach ($calls as $call) {
-//            $this->callRepository->save($call);
-//        }
+        foreach ($calls as $call) {
+            $this->callRepository->save($call);
+        }
     }
 }

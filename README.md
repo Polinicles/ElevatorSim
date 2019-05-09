@@ -77,3 +77,6 @@ Once defined, it has to tag and push the image to the hub
 - Create MakeFile
 - Code coverage for all classes
 - Manage calls that can't be answered when there're not enough elevators
+- Hability to define starting number of elevators or sequences
+- Exceptions Handling
+- Throwing domain events
